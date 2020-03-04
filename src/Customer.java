@@ -23,6 +23,18 @@ public class Customer {
 		this.accounts = null;
 	}
 	
+	
+	public String[] getAllAccountNumbers(){
+		ArrayList<String> accNumArrayList = new ArrayList<String>();
+		for (CustomerAccount ca: accounts)
+	    {
+			
+			accNumArrayList.add(ca.getNumber());
+	    }
+		return (String[]) accNumArrayList.toArray();
+	}
+	
+	
 	//Constructor with details
 	public Customer(String PPS, String surname, String firstName, String DOB, String customerID, String password, ArrayList<CustomerAccount> accounts)
 	{

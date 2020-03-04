@@ -27,7 +27,7 @@ public class Menu extends JFrame{
 		JLabel customerIDLabel, passwordLabel;
 		JTextField customerIDTextField, passwordTextField;
 	Container content;
-		Customer e;
+		Customer customer1;
 
 
 	 JPanel panel2;
@@ -1266,20 +1266,19 @@ public class Menu extends JFrame{
 	
 	
 ///////////////////////Customer method////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public void customer(Customer e1)
+	public void customer(Customer customer)
 	{	
 		f = new JFrame("Customer Menu");
-		e1 = e;
 		setFrameUI();
 		
-		if(e.getAccounts().size() == 0)
+		if(customer.getAccounts().size() == 0)
 			{
 				JOptionPane.showMessageDialog(f, "This customer does not have any accounts yet. \n An admin must create an account for this customer \n for them to be able to use customer functionality. " ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-				f.dispose();				
-				menuStart();
+				returnToMenu();
 			}
 		else
 			{
+			//Customer has account
 			JPanel buttonPanel = new JPanel();
 			JPanel boxPanel = new JPanel();
 			JPanel labelPanel = new JPanel();
@@ -1292,26 +1291,17 @@ public class Menu extends JFrame{
 			JButton continueButton = new JButton("Continue");
 			buttonPanel.add(continueButton);
 			
-			JComboBox<String> box = new JComboBox<String>();
-			
-		    for (int i =0; i < e.getAccounts().size(); i++)
-		    {
-		     box.addItem(e.getAccounts().get(i).getNumber());
-		    }
-			
+			JComboBox<String> box = new JComboBox<String>(customer.getAllAccountNumbers());
+
 		    
-		   
-		    for(int i = 0; i<e.getAccounts().size(); i++)
-		    {
-		    	if(e.getAccounts().get(i).getNumber() == box.getSelectedItem() )
-		    	{
-		    		acc = e.getAccounts().get(i);
+		    for (CustomerAccount ca: customer.getAccounts()) {
+		    	
+		    	if(ca.getNumber() == box.getSelectedItem()) {
+		    		acc = ca;
 		    	}
 		    }
 		    
-		    
-		    
-		
+	
 		    
 			boxPanel.add(box);
 			content = f.getContentPane();
@@ -1400,14 +1390,14 @@ public class Menu extends JFrame{
 					
 					Container content = f.getContentPane();
 					content.setLayout(new GridLayout(1, 1));
-				//	content.add(label1);
+					content.add(label1);
 					content.add(textPanel);
-					//content.add(returnPanel);
+					content.add(returnPanel);
 					
 					returnButton.addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							f.dispose();			
-						customer(e);				
+						customer(customer);				
 						}		
 				     });										
 				}	
@@ -1431,7 +1421,7 @@ public class Menu extends JFrame{
 						{
 							JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
 							((CustomerCurrentAccount) acc).getAtm().setValid(false);
-							customer(e); 
+							customer(customer); 
 							loop = false;
 							on = false;
 						}
@@ -1513,7 +1503,7 @@ public class Menu extends JFrame{
 							{
 								JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
 								((CustomerCurrentAccount) acc).getAtm().setValid(false);
-								customer(e); 
+								customer(customer); 
 								loop = false;
 								on = false;
 							}

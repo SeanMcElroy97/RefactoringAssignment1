@@ -33,6 +33,15 @@ public class Menu extends JFrame{
 	 JPanel panel2;
 		JButton add;
 		String 	PPS,firstName,surname,DOB,CustomerID;
+		
+		
+		
+		
+		
+		public void returnToMenu() {
+			f.dispose();
+			menuStart();				
+	     }
 	
 	public static void main(String[] args)
 
@@ -1274,8 +1283,7 @@ public class Menu extends JFrame{
 		
 		returnButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				f.dispose();
-				menuStart();				
+				returnToMenu();				
 			}
 	     });		
 	}
@@ -1343,8 +1351,7 @@ public class Menu extends JFrame{
 			
 			returnButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
-				f.dispose();				
-				menuStart();				
+					returnToMenu();			
 				}		
 		     });
 			

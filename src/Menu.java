@@ -42,6 +42,14 @@ public class Menu extends JFrame{
 			f.dispose();
 			menuStart();				
 	     }
+		
+		public void setFrameUI() {
+			f.setSize(400, 300);
+			f.setLocation(200, 200);
+			f.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent we) { System.exit(0); }
+			});
+		}
 	
 	public static void main(String[] args)
 
@@ -61,11 +69,7 @@ public class Menu extends JFrame{
 		
 			
 			f = new JFrame("User Type");
-			f.setSize(400, 300);
-			f.setLocation(200, 200);
-			f.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent we) { System.exit(0); }
-			});
+			setFrameUI();
 
 			JPanel userTypePanel = new JPanel();
 			final ButtonGroup userType = new ButtonGroup();
@@ -102,11 +106,7 @@ public class Menu extends JFrame{
 					{
 						f.dispose();		
 						f1 = new JFrame("Create New Customer");
-						f1.setSize(400, 300);
-						f1.setLocation(200, 200);
-						f1.addWindowListener(new WindowAdapter() {
-							public void windowClosing(WindowEvent we) { System.exit(0); }
-						});
+						setFrameUI();
 							Container content = f1.getContentPane();
 							content.setLayout(new BorderLayout());
 							
@@ -348,12 +348,7 @@ public class Menu extends JFrame{
 		dispose();
 		
 		f = new JFrame("Administrator Menu");
-		f.setSize(400, 400);
-		f.setLocation(200, 200);
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) { System.exit(0); }
-		});          
-		f.setVisible(true);
+		setFrameUI();
 		
 		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton deleteCustomer = new JButton("Delete Customer");	
@@ -464,12 +459,7 @@ public class Menu extends JFrame{
 				    {
 				    	f.dispose();
 				    	f = new JFrame("Administrator Menu");
-						f.setSize(400, 300);
-						f.setLocation(200, 200);
-						f.addWindowListener(new WindowAdapter() {
-							public void windowClosing(WindowEvent we) { System.exit(0); }
-						});          
-						f.setVisible(true);
+				    	setFrameUI();
 					
 					
 					    JComboBox<String> box = new JComboBox<String>();
@@ -609,12 +599,7 @@ public class Menu extends JFrame{
 			    {
 			    	f.dispose();
 			    	f = new JFrame("Administrator Menu");
-					f.setSize(400, 300);
-					f.setLocation(200, 200);
-					f.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) { System.exit(0); }
-					});          
-					f.setVisible(true);
+			    	setFrameUI();
 				
 				
 				    JComboBox<String> box = new JComboBox<String>();
@@ -766,11 +751,7 @@ public class Menu extends JFrame{
 				
 				f.dispose();
 				f = new JFrame("Administrator Menu");
-				f.setSize(400, 300);
-				f.setLocation(200, 200);
-				f.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent we) { System.exit(0); }
-				});       
+				setFrameUI();     
 				
 				firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
 				surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
@@ -859,12 +840,7 @@ public class Menu extends JFrame{
 				
 				
 				f = new JFrame("Summary of Transactions");
-				f.setSize(400, 700);
-				f.setLocation(200, 200);
-				f.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent we) { System.exit(0); }
-				});          
-				f.setVisible(true);
+				setFrameUI();
 				
 				JLabel label1 = new JLabel("Summary of all transactions: ");
 				
@@ -1294,12 +1270,7 @@ public class Menu extends JFrame{
 	{	
 		f = new JFrame("Customer Menu");
 		e1 = e;
-		f.setSize(400, 300);
-		f.setLocation(200, 200);
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) { System.exit(0); }
-		});          
-		f.setVisible(true);
+		setFrameUI();
 		
 		if(e.getAccounts().size() == 0)
 			{
@@ -1361,12 +1332,7 @@ public class Menu extends JFrame{
 			f.dispose();
 			
 			f = new JFrame("Customer Menu");
-			f.setSize(400, 300);
-			f.setLocation(200, 200);
-			f.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent we) { System.exit(0); }
-			});          
-			f.setVisible(true);
+			setFrameUI();
 			
 			JPanel statementPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			JButton statementButton = new JButton("Display Bank Statement");
@@ -1402,12 +1368,7 @@ public class Menu extends JFrame{
 				public void actionPerformed(ActionEvent ae) {
 					f.dispose();
 					f = new JFrame("Customer Menu");
-					f.setSize(400, 600);
-					f.setLocation(200, 200);
-					f.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) { System.exit(0); }
-					});          
-					f.setVisible(true);
+					setFrameUI();
 					
 					JLabel label1 = new JLabel("Summary of account transactions: ");
 					
@@ -1637,8 +1598,7 @@ public class Menu extends JFrame{
 			
 			returnButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
-					f.dispose();		
-					menuStart();				
+					returnToMenu();			
 				}
 		     });		}		
 		     });

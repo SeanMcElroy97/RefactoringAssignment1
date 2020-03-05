@@ -1,3 +1,8 @@
+import java.util.Date;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class ATMCard {
  
 	int pin;
@@ -38,4 +43,6 @@ public class ATMCard {
 		return "Pin = " + this.pin;
 			
 	}
+	
+	
 }

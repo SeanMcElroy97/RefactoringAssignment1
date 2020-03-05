@@ -38,18 +38,68 @@ public class Menu extends JFrame{
 		
 		
 		
-		public void returnToMenu() {
+	public void returnToMenu() {
 			f.dispose();
 			menuStart();				
 	     }
 		
-		public void setFrameUI() {
+	public void setFrameUI() {
 			f.setSize(400, 300);
 			f.setLocation(200, 200);
 			f.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent we) { System.exit(0); }
 			});
 		}
+	
+	
+	public boolean CheckATMLogin(Customer c) {
+		{
+			boolean loop = true;
+			boolean on = true;
+			double balance = 0;
+
+			if(acc instanceof CustomerCurrentAccount)
+			{
+				int count = 3;
+				int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
+				//loop = true;
+				
+				while(loop)
+				{
+					if(count == 0)
+					{
+						JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
+						((CustomerCurrentAccount) acc).getAtm().setValid(false);
+						customer(c); 
+						
+						on = false;
+						return false;
+					}
+					
+					String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
+					int i = Integer.parseInt(Pin);
+					
+				   if(on)
+				   {
+					if(checkPin == i)
+					{
+						
+						JOptionPane.showMessageDialog(f, "Pin entry successful" ,  "Pin", JOptionPane.INFORMATION_MESSAGE);
+						return true;
+					}
+					else
+					{
+						count --;
+						JOptionPane.showMessageDialog(f, "Incorrect pin. " + count + " attempts remaining."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);					
+					}
+				   }
+				}
+			}
+		}
+				return false;
+			
+	}
+	
 	
 	public static void main(String[] args)
 
@@ -655,8 +705,8 @@ public class Menu extends JFrame{
 						 	
 						 	while(loop)
 						 	{
-							String interestString = JOptionPane.showInputDialog(f, "Enter interest percentage you wish to apply: \n NOTE: Please enter a numerical value. (with no percentage sign) \n E.g: If you wish to apply 8% interest, enter '8'");//the isNumeric method tests to see if the string entered was numeric. 
-							if(isNumeric(interestString))
+							String interestString = JOptionPane.showInputDialog(f, "Enter interest percentage you wish to apply: \n NOTE: Please enter a numerical value. (with no percentage sign) \n E.g: If you wish to apply 8% interest, enter '8'");//the AccountTransaction.isNumeric method tests to see if the string entered was numeric. 
+							if(AccountTransaction.isNumeric(interestString))
 							{
 								
 								interest = Double.parseDouble(interestString);
@@ -1266,12 +1316,12 @@ public class Menu extends JFrame{
 	
 	
 ///////////////////////Customer method////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public void customer(Customer customer)
+	public void customer(Customer customerOBJ)
 	{	
 		f = new JFrame("Customer Menu");
 		setFrameUI();
 		
-		if(customer.getAccounts().size() == 0)
+		if(customerOBJ.getAccounts().size() == 0)
 			{
 				JOptionPane.showMessageDialog(f, "This customer does not have any accounts yet. \n An admin must create an account for this customer \n for them to be able to use customer functionality. " ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
 				returnToMenu();
@@ -1291,10 +1341,10 @@ public class Menu extends JFrame{
 			JButton continueButton = new JButton("Continue");
 			buttonPanel.add(continueButton);
 			
-			JComboBox<String> box = new JComboBox<String>(customer.getAllAccountNumbers());
+			JComboBox<String> box = new JComboBox<String>(customerOBJ.getAllAccountNumbers());
 
 		    
-		    for (CustomerAccount ca: customer.getAccounts()) {
+		    for (CustomerAccount ca: customerOBJ.getAccounts()) {
 		    	
 		    	if(ca.getNumber() == box.getSelectedItem()) {
 		    		acc = ca;
@@ -1397,60 +1447,31 @@ public class Menu extends JFrame{
 					returnButton.addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							f.dispose();			
-						customer(customer);				
+						customer(customerOBJ);				
 						}		
 				     });										
 				}	
+				
+				
 		     });
 			
 			lodgementButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
-				boolean on = true;
 				double balance = 0;
+				boolean loginSuccess=false;
 	
 				if(acc instanceof CustomerCurrentAccount)
 				{
-					int count = 3;
-					int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
-					loop = true;
-					
-					while(loop)
-					{
-						if(count == 0)
-						{
-							JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
-							((CustomerCurrentAccount) acc).getAtm().setValid(false);
-							customer(customer); 
-							loop = false;
-							on = false;
-						}
+					loginSuccess = CheckATMLogin(customerOBJ);
+				}	
 						
-						String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-						int i = Integer.parseInt(Pin);
-						
-					   if(on)
-					   {
-						if(checkPin == i)
+				
+				//IF ATM LOGIN PASS THEN
+				if(loginSuccess == true)
 						{
-							loop = false;
-							JOptionPane.showMessageDialog(f, "Pin entry successful" ,  "Pin", JOptionPane.INFORMATION_MESSAGE);
-							
-						}
-						else
-						{
-							count --;
-							JOptionPane.showMessageDialog(f, "Incorrect pin. " + count + " attempts remaining."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);					
-						}
-					
-					}
-					}
-			
-					
-				}		if(on == true)
-						{
-					String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");//the isNumeric method tests to see if the string entered was numeric. 
-					if(isNumeric(balanceTest))
+					String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");//the AccountTransaction.isNumeric method tests to see if the string entered was numeric. 
+					if(AccountTransaction.isNumeric(balanceTest))
 					{
 						
 						balance = Double.parseDouble(balanceTest);
@@ -1466,16 +1487,12 @@ public class Menu extends JFrame{
 				
 				String euro = "\u20ac";
 				 acc.setBalance(acc.getBalance() + balance);
-				// String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-				 Date date = new Date();
-				 String date2 = date.toString();
-				 String type = "Lodgement";
 					double amount = balance;
 					
 					
 					
 					
-					AccountTransaction transaction = new AccountTransaction(date2, type, amount);
+					AccountTransaction transaction = new AccountTransaction((new Date()).toString(), "Lodgement", amount);
 					acc.getTransactionList().add(transaction);
 					
 				 JOptionPane.showMessageDialog(f, balance + euro + " added do you account!" ,"Lodgement",  JOptionPane.INFORMATION_MESSAGE);
@@ -1490,54 +1507,22 @@ public class Menu extends JFrame{
 					boolean loop = true;
 					boolean on = true;
 					double withdraw = 0;
+					boolean ATMCorrectLogin = false;
 	
 					if(acc instanceof CustomerCurrentAccount)
 					{
-						int count = 3;
-						int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
-						loop = true;
-						
-						while(loop)
-						{
-							if(count == 0)
-							{
-								JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
-								((CustomerCurrentAccount) acc).getAtm().setValid(false);
-								customer(customer); 
-								loop = false;
-								on = false;
-							}
-							
-							String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-							int i = Integer.parseInt(Pin);
-							
-						   if(on)
-						   {
-							if(checkPin == i)
-							{
-								loop = false;
-								JOptionPane.showMessageDialog(f, "Pin entry successful" ,  "Pin", JOptionPane.INFORMATION_MESSAGE);
-								
-							}
-							else
-							{
-								count --;
-								JOptionPane.showMessageDialog(f, "Incorrect pin. " + count + " attempts remaining."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);		
-							
-							}
-						
-						}
-						}
+						ATMCorrectLogin = CheckATMLogin(customerOBJ);
+					}	
 			
 					    	
 					    	
 					    
 						
 						
-					}		if(on == true)
+					if(ATMCorrectLogin == true)
 							{
-						String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to withdraw (max 500):");//the isNumeric method tests to see if the string entered was numeric. 
-						if(isNumeric(balanceTest))
+						String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to withdraw (max 500):");//the AccountTransaction.isNumeric method tests to see if the string entered was numeric. 
+						if(AccountTransaction.isNumeric(balanceTest))
 						{
 							
 							withdraw = Double.parseDouble(balanceTest);
@@ -1594,18 +1579,6 @@ public class Menu extends JFrame{
 		     });
 		}
 	}
-	
-	public static boolean isNumeric(String str)  // a method that tests if a string is numeric
-	{  
-	  try  
-	  {  
-	    double d = Double.parseDouble(str);  
-	  }  
-	  catch(NumberFormatException nfe)  
-	  {  
-	    return false;  
-	  }  
-	  return true;  
-	}
+
 }
 

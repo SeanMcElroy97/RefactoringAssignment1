@@ -917,12 +917,7 @@ public class Menu extends JFrame{
 			public void actionPerformed(ActionEvent ae) {
 				f.dispose();
 				
-				if(customerCollection.getCustomerList().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null, "There are currently no customers to display. ");
-					admin();
-				}
-				else
+				if(!customerCollection.customerListIsEmpty(f))
 				{
 		
 				JButton first, previous, next, last, cancel;
@@ -992,75 +987,30 @@ public class Menu extends JFrame{
 				content.add(gridPanel, BorderLayout.NORTH);
 				content.add(buttonPanel, BorderLayout.CENTER);
 				content.add(cancelPanel, BorderLayout.AFTER_LAST_LINE);
+				
+				
 				first.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
-						position = 0;
-						firstNameTextField.setText(customerCollection.getCustomerList().get(0).getFirstName());
-						surnameTextField.setText(customerCollection.getCustomerList().get(0).getSurname());
-						pPSTextField.setText(customerCollection.getCustomerList().get(0).getPPS());
-						dOBTextField.setText(customerCollection.getCustomerList().get(0).getDOB());
-						customerIDTextField.setText(customerCollection.getCustomerList().get(0).getCustomerID());
-						passwordTextField.setText(customerCollection.getCustomerList().get(0).getPassword());				
-							}		
+						customerCollection.navigateListGoToFirst(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
+					}		
 					     });
 				
 				previous.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
-								
-						if(position < 1)
-						{
-							//don't do anything
-						}
-						else
-						{
-							position = position - 1;
-							
-						firstNameTextField.setText(customerCollection.getCustomerList().get(position).getFirstName());
-						surnameTextField.setText(customerCollection.getCustomerList().get(position).getSurname());
-						pPSTextField.setText(customerCollection.getCustomerList().get(position).getPPS());
-						dOBTextField.setText(customerCollection.getCustomerList().get(position).getDOB());
-						customerIDTextField.setText(customerCollection.getCustomerList().get(position).getCustomerID());
-						passwordTextField.setText(customerCollection.getCustomerList().get(position).getPassword());
-						}			
-							}		
+						customerCollection.navigateListGoToPrevious(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
+					}		
 					     });
 				
 				next.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
-					
-						if(position == customerCollection.getCustomerList().size()-1)
-						{
-							//don't do anything
-						}
-						else
-						{
-							position = position + 1;
-							
-						firstNameTextField.setText(customerCollection.getCustomerList().get(position).getFirstName());
-						surnameTextField.setText(customerCollection.getCustomerList().get(position).getSurname());
-						pPSTextField.setText(customerCollection.getCustomerList().get(position).getPPS());
-						dOBTextField.setText(customerCollection.getCustomerList().get(position).getDOB());
-						customerIDTextField.setText(customerCollection.getCustomerList().get(position).getCustomerID());
-						passwordTextField.setText(customerCollection.getCustomerList().get(position).getPassword());
-						}		
-						
-						
-												
-							}		
+						customerCollection.navigateListToNext(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
+					}		
 					     });
 				
 				last.addActionListener(new ActionListener(  ) {
 					public void actionPerformed(ActionEvent ae) {
-					
-						position = customerCollection.getCustomerList().size() - 1;
-				
-						firstNameTextField.setText(customerCollection.getCustomerList().get(position).getFirstName());
-						surnameTextField.setText(customerCollection.getCustomerList().get(position).getSurname());
-						pPSTextField.setText(customerCollection.getCustomerList().get(position).getPPS());
-						dOBTextField.setText(customerCollection.getCustomerList().get(position).getDOB());
-						customerIDTextField.setText(customerCollection.getCustomerList().get(position).getCustomerID());
-						passwordTextField.setText(customerCollection.getCustomerList().get(position).getPassword());								
-							}		
+						customerCollection.navigateListToLast(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
+					}		
 					     });
 				
 				cancel.addActionListener(new ActionListener(  ) {

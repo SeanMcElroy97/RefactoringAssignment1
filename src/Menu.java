@@ -612,7 +612,7 @@ public class Menu extends JFrame{
 				
 				boolean found = false;
 			
-				if(CustomerCollection.customerListIsEmpty(f))
+				if(customerCollection.customerListIsEmpty(f))
 				{
 					admin();
 					
@@ -741,12 +741,9 @@ public class Menu extends JFrame{
 			
 				boolean found = false;
 			
-				if(customerCollection.getCustomerList().isEmpty())
+				if(customerCollection.customerListIsEmpty(f))
 				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
 					admin();
-					
 				}
 				else
 				{
@@ -755,16 +752,9 @@ public class Menu extends JFrame{
 			    {
 			    Object customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
 			    
-			    for (Customer aCustomer: customerCollection.getCustomerList()){
-			    	
-			    	if(aCustomer.getCustomerID().equals(customerID))
-			    	{
-			    		found = true;
-			    		customer = aCustomer;
-			    	}					    	
-			    }
+			    Customer c = customerCollection.findCustomerBYID(CustomerID);
 			    
-			    if(found == false)
+			    if(c == null)
 			    {
 			    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 			    	if (reply == JOptionPane.YES_OPTION) {
@@ -828,15 +818,14 @@ public class Menu extends JFrame{
 				customerIDTextField.setText(customer.getCustomerID());
 				passwordTextField.setText(customer.getPassword());	
 				
-				//JLabel label1 = new JLabel("Edit customer details below. The save");
-				
+		
 			
 				JButton saveButton = new JButton("Save");
 				JButton cancelButton = new JButton("Exit");
 				
 				cancelPanel.add(cancelButton, BorderLayout.SOUTH);
 				cancelPanel.add(saveButton, BorderLayout.SOUTH);
-			//	content.removeAll();
+			
 				Container content = f.getContentPane();
 				content.setLayout(new GridLayout(2, 1));
 				content.add(textPanel, BorderLayout.NORTH);
@@ -898,23 +887,12 @@ public class Menu extends JFrame{
 				JScrollPane scrollPane = new JScrollPane(textArea);
 				textPanel.add(scrollPane);
 				
-			for (int a = 0; a < customerCollection.getCustomerList().size(); a++)//For each customer, for each account, it displays each transaction.
-				{
-					for (int b = 0; b < customerCollection.getCustomerList().get(a).getAccounts().size(); b ++ )
-					{
-						acc = customerCollection.getCustomerList().get(a).getAccounts().get(b);
-						for (int c = 0; c < customerCollection.getCustomerList().get(a).getAccounts().get(b).getTransactionList().size(); c++)
-						{
-							
-							textArea.append(acc.getTransactionList().get(c).toString());
-							//Int total = acc.getTransactionList().get(c).getAmount(); //I was going to use this to keep a running total but I couldnt get it  working.
-							
-						}				
-					}				
+			
+			for(Customer c: customerCollection.getCustomerList()) {
+				for(CustomerAccount ca: c.getAccounts()) {
+					ca.displayAllTransactions(textArea);
 				}
-				
-				
-				
+			}
 				
 				textPanel.add(textArea);
 				content.removeAll();

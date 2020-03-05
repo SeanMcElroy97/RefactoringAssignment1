@@ -36,7 +36,6 @@ public CustomerCollection() {
 		return false;
 	}
 
-
 	
 
 	public ArrayList<Customer> getCustomerList() {

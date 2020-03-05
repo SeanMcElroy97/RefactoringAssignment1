@@ -1,5 +1,7 @@
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+
+import javax.swing.JTextArea; 
 
 public class CustomerAccount  {
    
@@ -24,6 +26,14 @@ public class CustomerAccount  {
 	}
 	
 	//Accessor methods
+	
+	public JTextArea displayAllTransactions(JTextArea txtArea) {
+		for(AccountTransaction a: transactionList) {
+			txtArea.append(a.toString());
+		}
+		return txtArea;
+	}
+	
 	
 	public String getNumber()
 	{

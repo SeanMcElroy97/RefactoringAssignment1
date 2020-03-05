@@ -1,4 +1,7 @@
-import java.util.ArrayList; 
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane; 
 
 public class Customer {
 
@@ -82,6 +85,33 @@ public class Customer {
 	{
 		return this.accounts;
 	}
+	
+	public CustomerAccount chooseAccount(Object chosenAcc, JFrame f) {
+		if(getAccounts().isEmpty())
+		{
+			JOptionPane.showMessageDialog(f, "This customer has no accounts! \n The admin must add acounts to this customer."   ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
+			f.dispose();
+			return null;
+		}
+		else
+		{
+		
+			for(int i = 0; i < getAccounts().size(); i++)
+			{
+				if(getAccounts().get(i).getNumber() == chosenAcc )
+				{
+					CustomerAccount cAcc = getAccounts().get(i);
+					return cAcc;
+				}
+			}
+		return null;
+	}
+	}
+	
+	
+	
+	
+	
 	
 	//mutator methods
 	public void setPPS(String PPS)

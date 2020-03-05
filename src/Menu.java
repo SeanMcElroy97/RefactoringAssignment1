@@ -18,7 +18,7 @@ public class Menu extends JFrame{
 	
 	
     private int position = 0;
-	private String password;
+	String password;
 	private Customer customer = null;
 	private CustomerAccount acc = new CustomerAccount();
 	JFrame f, f1;
@@ -108,16 +108,6 @@ public class Menu extends JFrame{
 		Menu driver = new Menu();
 		driver.menuStart();
 	}
-
-//	static boolean CustomerCollection.customerCollection.getCustomerList()IsEmpty(JFrame f, ArrayList<Customer> list){
-//		if(list.isEmpty()) {
-//		JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-//		f.dispose();
-//		return true;
-//		}
-//		return false;
-//	}
-	
 	
 	
 /////////////////////////////menu Start method///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,6 +154,7 @@ public class Menu extends JFrame{
 					{
 						f.dispose();		
 						f1 = new JFrame("Create New Customer");
+						//Set to strategy new customer
 						setFrameUI();
 							Container content = f1.getContentPane();
 							content.setLayout(new BorderLayout());
@@ -1030,13 +1021,7 @@ public class Menu extends JFrame{
 			public void actionPerformed(ActionEvent ae) {
 				f.dispose();
 				
-				if(customerCollection.getCustomerList().isEmpty())
-				{
-					JOptionPane.showMessageDialog(f, "There are no customers yet!"  ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					f.dispose();
-					admin();
-				}
-				else
+				if(!customerCollection.customerListIsEmpty(f))
 				{
 				boolean loop = true;
 				
@@ -1046,16 +1031,9 @@ public class Menu extends JFrame{
 			    {
 			    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer You Wish to Add an Account to:");
 			    
-			    for (Customer aCustomer: customerCollection.getCustomerList()){
-			    	
-			    	if(aCustomer.getCustomerID().equals(customerID))
-			    	{
-			    		found = true;
-			    		customer = aCustomer; 	
-			    	}					    	
-			    }
+			    customer = customerCollection.findCustomerBYID(CustomerID);
 			    
-			    if(found == false)
+			    if(customer == null)
 			    {
 			    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 			    	if (reply == JOptionPane.YES_OPTION) {
@@ -1125,28 +1103,12 @@ public class Menu extends JFrame{
 			public void actionPerformed(ActionEvent ae) {
 				boolean found = true, loop = true;
 				
-				if(customerCollection.getCustomerList().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null, "There are currently no customers to display. ");
-					dispose();
-					admin();
-				}
-				else
+				if(!customerCollection.customerListIsEmpty(f))
 				{
 					 {
 						    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer You Wish to Delete:");
 						    
-						    for (Customer aCustomer: customerCollection.getCustomerList()){
-						    	
-						    	if(aCustomer.getCustomerID().equals(customerID))
-						    	{
-						    		found = true;
-						    		customer = aCustomer; 
-						    		loop = false;
-						    	}					    	
-						    }
-						    
-						    if(found == false)
+						    if(customerCollection.findCustomerBYID(CustomerID) == null)
 						    {
 						    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 						    	if (reply == JOptionPane.YES_OPTION) {
@@ -1188,17 +1150,8 @@ public class Menu extends JFrame{
 					 {
 						    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer from which you wish to delete an account");
 						    
-						    for (Customer aCustomer: customerCollection.getCustomerList()){
-						    	
-						    	if(aCustomer.getCustomerID().equals(customerID))
-						    	{
-						    		found = true;
-						    		customer = aCustomer; 
-						    		loop = false;
-						    	}					    	
-						    }
-						    
-						    if(found == false)
+						    						    
+						    if(customerCollection.findCustomerBYID(CustomerID) == null)
 						    {
 						    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 						    	if (reply == JOptionPane.YES_OPTION) {

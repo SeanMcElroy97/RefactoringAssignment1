@@ -13,14 +13,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class StartMenuStrategyNewCustomer extends StartMenuStrategy{
+public class NewCustomerStrategy extends UserStrategy{
 
 	
-public void execute(){
-	f.dispose();		
+public void menuStart(){
+//	f.dispose();	
+	
 	f1 = new JFrame("Create New Customer");
-	//Set to strategy new customer
-	setFrameUI();
+	setFrameUI(f1);
+	
+	
 		Container content = f1.getContentPane();
 		content.setLayout(new BorderLayout());
 		

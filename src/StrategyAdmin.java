@@ -1,10 +1,10 @@
 import javax.swing.JOptionPane;
 
 
-public class StartMenuStrategyAdmin extends StartMenuStrategy {
+public class StrategyAdmin extends UserStrategy {
 
 	@Override
-	public void execute() {
+	public void menuStart() {
 		// TODO Auto-generated method stub
 
 		boolean loop = true, loop2 = true;
@@ -65,4 +65,6 @@ public class StartMenuStrategyAdmin extends StartMenuStrategy {
 	
 	}
 
+	
+	
 }

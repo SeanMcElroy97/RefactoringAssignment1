@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class Menu extends JFrame{
 	
-	StartMenuStrategy sms;
+	UserStrategy userStrategy;
 	
     private int position = 0;
 	String password;
@@ -31,7 +31,7 @@ public class Menu extends JFrame{
 		Customer customer1;
 		
 		String euro = "\u20ac";
-		//testt
+		//another test
 
 	 JPanel panel2;
 		JButton add;
@@ -46,62 +46,17 @@ public class Menu extends JFrame{
 			menuStart();				
 	     }
 		
-	public void setFrameUI() {
-			f.setSize(400, 300);
-			f.setLocation(200, 200);
-			f.addWindowListener(new WindowAdapter() {
+	public void setFrameUI(JFrame fr) {
+			fr.setSize(400, 300);
+			fr.setLocation(200, 200);
+			fr.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent we) { System.exit(0); }
 			});
 		}
 	
 	
-	public boolean CheckATMLogin(Customer c) {
-		{
-			boolean loop = true;
-			boolean on = true;
-			double balance = 0;
-
-			if(acc instanceof CustomerCurrentAccount)
-			{
-				int count = 3;
-				int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
-				//loop = true;
-				
-				while(loop)
-				{
-					if(count == 0)
-					{
-						JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
-						((CustomerCurrentAccount) acc).getAtm().setValid(false);
-						customer(c); 
-						
-						on = false;
-						return false;
-					}
-					
-					String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-					int i = Integer.parseInt(Pin);
-					
-				   if(on)
-				   {
-					if(checkPin == i)
-					{
-						
-						JOptionPane.showMessageDialog(f, "Pin entry successful" ,  "Pin", JOptionPane.INFORMATION_MESSAGE);
-						return true;
-					}
-					else
-					{
-						count --;
-						JOptionPane.showMessageDialog(f, "Incorrect pin. " + count + " attempts remaining."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);					
-					}
-				   }
-				}
-			}
-		}
-				return false;
-			
-	}
+	
+	
 	
 	
 	public static void main(String[] args)
@@ -119,7 +74,7 @@ public class Menu extends JFrame{
 		  if they are a new customer, or will ask them to log in if they are an existing customer or admin.*/
 		
 			f = new JFrame("User Type");
-			setFrameUI();
+			setFrameUI(f);
 
 			JPanel userTypePanel = new JPanel();
 			final ButtonGroup userType = new ButtonGroup();
@@ -154,8 +109,8 @@ public class Menu extends JFrame{
 					//if user selects NEW CUSTOMER--------------------------------------------------------------------------------------
 					if(user.equals("New Customer"))
 					{
-						sms = new StartMenuStrategyNewCustomer();
-						sms.execute();
+						userStrategy = new NewCustomerStrategy();
+						userStrategy.menuStart();
 						}
 					
 					
@@ -164,8 +119,8 @@ public class Menu extends JFrame{
 					//if user select ADMIN----------------------------------------------------------------------------------------------
 					if(user.equals("Administrator")	)
 					{
-						sms = new StartMenuStrategyAdmin();
-						sms.execute();
+						userStrategy = new StrategyAdmin();
+						userStrategy.menuStart();
 					}
 					//----------------------------------------------------------------------------------------------------------------
 					
@@ -174,8 +129,8 @@ public class Menu extends JFrame{
 					//if user selects CUSTOMER ---------------------------------------------------------------------------------------- 
 					if(user.equals("Customer")	)
 					{
-						sms = new StartMenuStrategyExistingCustomer();
-						sms.execute();
+						userStrategy = new ExistingCustomerStrategy();
+						userStrategy.menuStart();
 					}
 					//-----------------------------------------------------------------------------------------------------------------------
 				}
@@ -189,7 +144,7 @@ public class Menu extends JFrame{
 		dispose();
 		
 		f = new JFrame("Administrator Menu");
-		setFrameUI();
+		setFrameUI(f);
 		
 		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton deleteCustomer = new JButton("Delete Customer");	
@@ -288,7 +243,7 @@ public class Menu extends JFrame{
 				    {
 				    	f.dispose();
 				    	f = new JFrame("Administrator Menu");
-				    	setFrameUI();
+				    	setFrameUI(f);
 					
 					
 					    JComboBox<String> box = new JComboBox<String>();
@@ -418,7 +373,7 @@ public class Menu extends JFrame{
 			    {
 			    	f.dispose();
 			    	f = new JFrame("Administrator Menu");
-			    	setFrameUI();
+			    	setFrameUI(f);
 				
 				
 				    JComboBox<String> box = new JComboBox<String>();
@@ -554,7 +509,7 @@ public class Menu extends JFrame{
 				
 				f.dispose();
 				f = new JFrame("Administrator Menu");
-				setFrameUI();     
+				setFrameUI(f);     
 				
 				firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
 				surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
@@ -642,7 +597,7 @@ public class Menu extends JFrame{
 				
 				
 				f = new JFrame("Summary of Transactions");
-				setFrameUI();
+				setFrameUI(f);
 				
 				JLabel label1 = new JLabel("Summary of all transactions: ");
 				
@@ -972,7 +927,7 @@ public class Menu extends JFrame{
 	public void customer(Customer customerOBJ)
 	{	
 		f = new JFrame("Customer Menu");
-		setFrameUI();
+		setFrameUI(f);
 		
 		if(customerOBJ.getAccounts().size() == 0)
 			{
@@ -1025,7 +980,7 @@ public class Menu extends JFrame{
 			f.dispose();
 			
 			f = new JFrame("Customer Menu");
-			setFrameUI();
+			setFrameUI(f);
 			
 			JPanel statementPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			JButton statementButton = new JButton("Display Bank Statement");
@@ -1061,7 +1016,7 @@ public class Menu extends JFrame{
 				public void actionPerformed(ActionEvent ae) {
 					f.dispose();
 					f = new JFrame("Customer Menu");
-					setFrameUI();
+					setFrameUI(f);
 					
 					JLabel label1 = new JLabel("Summary of account transactions: ");
 					
@@ -1116,7 +1071,9 @@ public class Menu extends JFrame{
 	
 				if(acc instanceof CustomerCurrentAccount)
 				{
-					loginSuccess = CheckATMLogin(customerOBJ);
+					loginSuccess = AccountTransaction.CheckATMLogin(customerOBJ, f, acc);
+					
+					
 				}	
 						
 				
@@ -1134,6 +1091,7 @@ public class Menu extends JFrame{
 					}
 					else
 					{
+						customer(customerOBJ);
 						JOptionPane.showMessageDialog(f, "You must enter a numerical value!" ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
 					}
 					
@@ -1164,7 +1122,7 @@ public class Menu extends JFrame{
 	
 					if(acc instanceof CustomerCurrentAccount)
 					{
-						ATMCorrectLogin = CheckATMLogin(customerOBJ);
+						ATMCorrectLogin = AccountTransaction.CheckATMLogin(customerOBJ, f, acc);
 					}	
 			
 					    	
@@ -1184,6 +1142,7 @@ public class Menu extends JFrame{
 						}
 						else
 						{
+							customer(customerOBJ);
 							JOptionPane.showMessageDialog(f, "You must enter a numerical value!" ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
 						}
 						if(withdraw > 500)

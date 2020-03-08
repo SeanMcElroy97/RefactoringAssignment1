@@ -1,3 +1,6 @@
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class AccountTransaction {
 
 	String date;
@@ -75,6 +78,52 @@ public class AccountTransaction {
 	    return false;  
 	  }  
 	  return true;  
+	}
+
+
+	public static boolean CheckATMLogin(Customer customerOBJ, JFrame f, CustomerAccount acc) {
+		boolean loop = true;
+		boolean on = true;
+		double balance = 0;
+
+		if(acc instanceof CustomerCurrentAccount)
+		{
+			int count = 3;
+			int checkPin = ((CustomerCurrentAccount) acc).getAtm().getPin();
+			//loop = true;
+			
+			while(loop)
+			{
+				if(count == 0)
+				{
+					JOptionPane.showMessageDialog(f, "Pin entered incorrectly 3 times. ATM card locked."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);
+					((CustomerCurrentAccount) acc).getAtm().setValid(false);
+//					customer(c); 
+					
+					on = false;
+					return false;
+				}
+				
+				String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
+				int i = Integer.parseInt(Pin);
+				
+			   if(on)
+			   {
+				if(checkPin == i)
+				{
+					
+					JOptionPane.showMessageDialog(f, "Pin entry successful" ,  "Pin", JOptionPane.INFORMATION_MESSAGE);
+					return true;
+				}
+				else
+				{
+					count --;
+					JOptionPane.showMessageDialog(f, "Incorrect pin. " + count + " attempts remaining."  ,"Pin",  JOptionPane.INFORMATION_MESSAGE);					
+				}
+			   }
+			}
+		}
+				return false;
 	}
 
 	

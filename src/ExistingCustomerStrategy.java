@@ -1,9 +1,9 @@
 import javax.swing.JOptionPane;
 
-public class StartMenuStrategyExistingCustomer extends StartMenuStrategy {
+public class ExistingCustomerStrategy extends UserStrategy {
 
 	@Override
-	public void execute() {
+	public void menuStart() {
 		// TODO Auto-generated method stub
 
 		boolean loop = true, loop2 = true;

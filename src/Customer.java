@@ -37,6 +37,15 @@ public class Customer {
 		return (String[]) accNumArrayList.toArray();
 	}
 	
+	public CustomerAccount getAccountByAccountNumber(String accNumber) {
+		for(CustomerAccount account: accounts) {
+			if(account.getNumber().equals(accNumber)) {
+				return account;
+			}
+		}
+		return null;
+	}
+	
 	
 	//Constructor with details
 	public Customer(String PPS, String surname, String firstName, String DOB, String customerID, String password, ArrayList<CustomerAccount> accounts)

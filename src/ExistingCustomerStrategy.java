@@ -5,76 +5,61 @@ import javax.swing.JOptionPane;
 public class ExistingCustomerStrategy extends UserStrategy {
 
 	@Override
-	public void menuStart() {
+	public void userMenuStart() {
 		// TODO Auto-generated method stub
 
-		boolean loop = true, loop2 = true;
-		boolean cont = false;
-		boolean found = false;
+		String customerPassword = "";
+		
 		Customer customer = null;
-	    while(loop)
+		
+		
+		System.out.print(customerCollection.getCustomerList().toString());
+		
+	    while(customer== null)
 	    {
-	    Object customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
+	    String customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
 	    
 	    for (Customer aCustomer: customerCollection.getCustomerList()){
 	    	
 	    	if(aCustomer.getCustomerID().equals(customerID))//search customer list for matching customer ID
 	    	{
-	    		found = true;
 	    		customer = aCustomer;
 	    	}					    	
 	    }
 	    
-	    if(found == false)
+	    if(customer == null)
 	    {
 	    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 	    	if (reply == JOptionPane.YES_OPTION) {
-	    		loop = true;
+	    		userMenuStart();
 	    	}
 	    	else if(reply == JOptionPane.NO_OPTION)
 	    	{
-	    		f.dispose();
-	    		loop = false;
-	    		loop2 = false;
-	    		menuStart();
+	    		menuStart(f);
 	    	}
 	    }
-	    else
-	    {
-	    	loop = false;
-	    }
+
 	   
 	    }
 	    
-	    while(loop2)
+	    while(!customer.getPassword().equals(customerPassword))
 	    {
-	    	Object customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
+	    	customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
 	    	
-	    	   if(!customer.getPassword().equals(customerPassword))//check if custoemr password is correct
+	    	   if(!customer.getPassword().equals(customerPassword))//check if custoemr password is  INcorrect
 			    {
 			    	int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?", JOptionPane.YES_NO_OPTION);
-			    	if (reply == JOptionPane.YES_OPTION) {
-			    		
-			    	}
-			    	else if(reply == JOptionPane.NO_OPTION){
+			    	if(reply == JOptionPane.NO_OPTION){
 			    		f.dispose();
-			    		loop2 = false;
-			    		menuStart();
+			    		userMenuStart();
 			    	}
 			    }
-	    	   else
-	    	   {
-	    		   loop2 =false;
-	    		   cont = true;
+	    	   else {
+	    		   f.dispose();
+	    		   customer(customer);	
 	    	   }
 	    }
-	    	
-	    if(cont)
-	    {
-		f.dispose();
-	    	loop = false;
-	    	customer(customer);				    
-	    }				    
+	    	  			    
 	
 	}
 

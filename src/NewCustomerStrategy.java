@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 public class NewCustomerStrategy extends UserStrategy{
 
 	
-public void menuStart(){
+public void userMenuStart(){
 //	f.dispose();	
 	
 	f1 = new JFrame("Create New Customer");
@@ -58,14 +58,7 @@ public void menuStart(){
 	password = "";
 
 	CustomerID = "ID"+PPS ;
-	
 
-	
-	
-	
-	
-	add.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
 			f1.dispose();
 			
 			boolean loop = true;
@@ -89,19 +82,21 @@ public void menuStart(){
 					Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password, accounts);
 						
 					customerCollection.getCustomerList().add(customer);
+					System.out.println(customerCollection.getCustomerList().size() + customerCollection.getCustomerList().toString());
 				
 					JOptionPane.showMessageDialog(f, "CustomerID = " + CustomerID +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
-					menuStart();
-				f.dispose();
+					menuStart(f);
+					
 		}
 	});	
-			}
-		});						
-		JButton cancel = new JButton("Cancel");					
+							
+		
+		 /////////////////////////////////////////////////
+		 JButton cancel = new JButton("Cancel");					
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				f1.dispose();
-				menuStart();
+				menuStart(f);
 			}
 		});	
 		

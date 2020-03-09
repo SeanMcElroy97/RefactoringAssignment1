@@ -30,7 +30,7 @@ public class StrategyAdmin extends UserStrategy {
 	
 /////////////////start admin menu///////////////////////////////////////////////////////////////////////
 	@Override
-	public void menuStart() {
+	public void userMenuStart() {
 		// TODO Auto-generated method stub
 
 		String adminUsername = "";
@@ -48,7 +48,7 @@ public class StrategyAdmin extends UserStrategy {
 	    	if(reply == JOptionPane.NO_OPTION)
 	    	{
 	    		f1.dispose();
-	    		menuStart();
+	    		userMenuStart();
 	    	}
 	    }
 				    
@@ -63,7 +63,7 @@ public class StrategyAdmin extends UserStrategy {
 			    	int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect Password. Try again?", JOptionPane.YES_NO_OPTION);
 			    	if(reply == JOptionPane.NO_OPTION){
 			    		f1.dispose();
-			    		menuStart();
+			    		userMenuStart();
 			    	}
 			    }
 	    }

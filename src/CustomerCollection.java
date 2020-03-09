@@ -8,9 +8,15 @@ public class CustomerCollection {
 	
 	private  ArrayList<Customer> customerList;
 	
+	//
+	private static final CustomerCollection custCollectionClass = new CustomerCollection();
 	
+	//
+	public static CustomerCollection getInstance() {
+		return custCollectionClass;
+	}
 
-public CustomerCollection() {
+private CustomerCollection() {
 		super();
 		customerList = new ArrayList<Customer>();
 	}

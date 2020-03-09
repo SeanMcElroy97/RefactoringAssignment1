@@ -33,10 +33,14 @@ public class Menu extends JFrame{
 	JPanel panel2;
 	JButton add;		
 		
-	CustomerCollection customerCollection = new CustomerCollection();
+	 CustomerCollection customerCollection = CustomerCollection.getInstance();
 	
-		
-		
+	
+	
+	
+	
+
+
 /////////////////Method that starts menu again//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 	public void returnToMenu() {
 			menuStart(f);				
@@ -64,6 +68,7 @@ public class Menu extends JFrame{
 	{
 		Menu driver = new Menu();
 		driver.menuStart(new JFrame());
+
 	}
 
 	
@@ -72,7 +77,9 @@ public class Menu extends JFrame{
 	{
 		   /*The menuStart method asks the user if they are a new customer, an existing customer or an admin. It will then start the create customer process
 		  if they are a new customer, or will ask them to log in if they are an existing customer or admin.*/
+			if(oldFrame instanceof JFrame) {
 			oldFrame.dispose();
+			}
 			f = new JFrame("User Type");
 			setFrameUI(f);
 
@@ -109,8 +116,9 @@ public class Menu extends JFrame{
 					//if user selects NEW CUSTOMER--------------------------------------------------------------------------------------
 					if(user.equals("New Customer"))
 					{
+						f.dispose();
 						userStrategy = new NewCustomerStrategy();
-						userStrategy.menuStart();
+						userStrategy.userMenuStart();
 						}
 					
 					
@@ -120,7 +128,7 @@ public class Menu extends JFrame{
 					if(user.equals("Administrator")	)
 					{
 						userStrategy = new StrategyAdmin();
-						userStrategy.menuStart();
+						userStrategy.userMenuStart();
 					}
 					//----------------------------------------------------------------------------------------------------------------
 					
@@ -130,7 +138,7 @@ public class Menu extends JFrame{
 					if(user.equals("Customer")	)
 					{
 						userStrategy = new ExistingCustomerStrategy();
-						userStrategy.menuStart();
+						userStrategy.userMenuStart();
 					}
 					//-----------------------------------------------------------------------------------------------------------------------
 				}

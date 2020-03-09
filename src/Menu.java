@@ -39,6 +39,11 @@ public class Menu extends JFrame{
 		
 		
 		CustomerCollection customerCollection = new CustomerCollection();
+	
+		
+		
+		
+		
 		
 		
 	public void returnToMenu() {
@@ -150,10 +155,10 @@ public class Menu extends JFrame{
 		deleteCustomer.setPreferredSize(new Dimension(250, 20));
 		deleteCustomerPanel.add(deleteCustomer);
 		
-		JPanel deleteAccountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton deleteAccount = new JButton("Delete Account");
-		deleteAccount.setPreferredSize(new Dimension(250, 20));	
-		deleteAccountPanel.add(deleteAccount);
+		JPanel deleteCustomerAccountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JButton deleteCustomerAccountBTN = new JButton("Delete Account");
+		deleteCustomerAccountBTN.setPreferredSize(new Dimension(250, 20));	
+		deleteCustomerAccountPanel.add(deleteCustomerAccountBTN);
 		
 		JPanel bankChargesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton bankChargesButton = new JButton("Apply Bank Charges");
@@ -234,272 +239,26 @@ public class Menu extends JFrame{
 		
 		navigateButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				f.dispose();
-				
-				if(!customerCollection.customerListIsEmpty(f))
-				{
-		
-				JButton first, previous, next, last, cancel;
-				JPanel gridPanel, buttonPanel, cancelPanel;			
-	
-				Container content = getContentPane();
-				
-				content.setLayout(new BorderLayout());
-				
-				buttonPanel = new JPanel();
-				gridPanel = new JPanel(new GridLayout(8, 2));
-				cancelPanel = new JPanel();
-								
-				firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
-				surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
-				pPPSLabel = new JLabel("PPS Number:", SwingConstants.LEFT);
-				dOBLabel = new JLabel("Date of birth", SwingConstants.LEFT);
-				customerIDLabel = new JLabel("CustomerID:", SwingConstants.LEFT);
-				passwordLabel = new JLabel("Password:", SwingConstants.LEFT);
-				firstNameTextField = new JTextField(20);
-				surnameTextField = new JTextField(20);
-				pPSTextField = new JTextField(20);
-				dOBTextField = new JTextField(20);
-				customerIDTextField = new JTextField(20);
-				passwordTextField = new JTextField(20);
-				
-				first = new JButton("First");
-				previous = new JButton("Previous");
-				next = new JButton("Next");
-				last = new JButton("Last");
-				cancel = new JButton("Cancel");
-				
-				firstNameTextField.setText(customerCollection.getCustomerList().get(0).getFirstName());
-				surnameTextField.setText(customerCollection.getCustomerList().get(0).getSurname());
-				pPSTextField.setText(customerCollection.getCustomerList().get(0).getPPS());
-				dOBTextField.setText(customerCollection.getCustomerList().get(0).getDOB());
-				customerIDTextField.setText(customerCollection.getCustomerList().get(0).getCustomerID());
-				passwordTextField.setText(customerCollection.getCustomerList().get(0).getPassword());
-				
-				firstNameTextField.setEditable(false);
-				surnameTextField.setEditable(false);
-				pPSTextField.setEditable(false);
-				dOBTextField.setEditable(false);
-				customerIDTextField.setEditable(false);
-				passwordTextField.setEditable(false);
-				
-				gridPanel.add(firstNameLabel);
-				gridPanel.add(firstNameTextField);
-				gridPanel.add(surnameLabel);
-				gridPanel.add(surnameTextField);
-				gridPanel.add(pPPSLabel);
-				gridPanel.add(pPSTextField);
-				gridPanel.add(dOBLabel);
-				gridPanel.add(dOBTextField);
-				gridPanel.add(customerIDLabel);
-				gridPanel.add(customerIDTextField);
-				gridPanel.add(passwordLabel);
-				gridPanel.add(passwordTextField);
-				
-				buttonPanel.add(first);
-				buttonPanel.add(previous);
-				buttonPanel.add(next);
-				buttonPanel.add(last);
-				
-				cancelPanel.add(cancel);
-		
-				content.add(gridPanel, BorderLayout.NORTH);
-				content.add(buttonPanel, BorderLayout.CENTER);
-				content.add(cancelPanel, BorderLayout.AFTER_LAST_LINE);
-				
-				
-				first.addActionListener(new ActionListener(  ) {
-					public void actionPerformed(ActionEvent ae) {
-						customerCollection.navigateListGoToFirst(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
-					}		
-					     });
-				
-				previous.addActionListener(new ActionListener(  ) {
-					public void actionPerformed(ActionEvent ae) {
-						customerCollection.navigateListGoToPrevious(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
-					}		
-					     });
-				
-				next.addActionListener(new ActionListener(  ) {
-					public void actionPerformed(ActionEvent ae) {
-						customerCollection.navigateListToNext(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
-					}		
-					     });
-				
-				last.addActionListener(new ActionListener(  ) {
-					public void actionPerformed(ActionEvent ae) {
-						customerCollection.navigateListToLast(position, firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField);
-					}		
-					     });
-				
-				cancel.addActionListener(new ActionListener(  ) {
-					public void actionPerformed(ActionEvent ae) {				
-						dispose();
-						admin();
-							}		
-					     });			
-				setContentPane(content);
-				setSize(400, 300);
-			       setVisible(true);
-					}		
-			}
+				((StrategyAdmin) userStrategy).navigateCustomerCollection(position);
+				}
 		});
 		
 		accountButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				f.dispose();
-				
-				if(!customerCollection.customerListIsEmpty(f))
-				{
-				boolean loop = true;
-				
-				boolean found = false;
-			
-			    while(loop)
-			    {
-			    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer You Wish to Add an Account to:");
-			    
-			    customer = customerCollection.findCustomerBYID(CustomerID);
-			    
-			    if(customer == null)
-			    {
-			    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
-			    	if (reply == JOptionPane.YES_OPTION) {
-			    		loop = true;
-			    	}
-			    	else if(reply == JOptionPane.NO_OPTION)
-			    	{
-			    		f.dispose();
-			    		loop = false;
-			    	
-			    		admin();
-			    	}
-			    }
-			    else
-			    {
-			    	loop = false;
-			    	//a combo box in an dialog box that asks the admin what type of account they wish to create (deposit/current)
-				    String[] choices = { "Current Account", "Deposit Account" };
-				    String account = (String) JOptionPane.showInputDialog(null, "Please choose account type",
-				        "Account Type", JOptionPane.QUESTION_MESSAGE, null, choices, choices[1]); 
-				    
-				    if(account.equals("Current Account"))
-				    {
-				    	//create current account
-				    	boolean valid = true;
-				    	double balance = 0;
-				    	String number = String.valueOf("C" + (customerCollection.getCustomerList().indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
-				    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
-				    	int randomPIN = (int)(Math.random()*9000)+1000;
-				           String pin = String.valueOf(randomPIN);
-				    
-				           ATMCard atm = new ATMCard(randomPIN, valid);
-				    	
-				    	CustomerCurrentAccount current = new CustomerCurrentAccount(atm, number, balance, transactionList);
-				    	
-				    	customer.getAccounts().add(current);
-				    	JOptionPane.showMessageDialog(f, "Account number = " + number +"\n PIN = " + pin  ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
-				    	
-				    	f.dispose();
-				    	admin();
-				    }
-				    
-				    if(account.equals("Deposit Account"))
-				    {
-				    	//create deposit account
-				    	
-				    	double balance = 0, interest = 0;
-				    	String number = String.valueOf("D" + (customerCollection.getCustomerList().indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
-				    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
-				        	
-				    	CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance, transactionList);
-				    	
-				    	customer.getAccounts().add(deposit);
-				    	JOptionPane.showMessageDialog(f, "Account number = " + number ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
-				    	
-				    	f.dispose();
-				    	admin();//
-				    }
-			    
-			    }			   
-			    }
-				}
+				((StrategyAdmin) userStrategy).addAccountToCustomer(customer); 
 			}
 	     });		
 
 		deleteCustomer.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				boolean found = true, loop = true;
-				
-				if(!customerCollection.customerListIsEmpty(f))
-				{
-					 {
-						    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer You Wish to Delete:");
-						    
-						    if(customerCollection.findCustomerBYID(CustomerID) == null)
-						    {
-						    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
-						    	if (reply == JOptionPane.YES_OPTION) {
-						    		loop = true;
-						    	}
-						    	else if(reply == JOptionPane.NO_OPTION)
-						    	{
-						    		f.dispose();
-						    		loop = false;
-						    		
-						    		admin();
-						    	}
-						    }  
-						    else
-						    {
-						    	if(customer.getAccounts().size()>0)
-						    	{
-						    		JOptionPane.showMessageDialog(f, "This customer has accounts. \n You must delete a customer's accounts before deleting a customer " ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-						    	}
-						    	else
-						    	{
-						    		customerCollection.getCustomerList().remove(customer);
-						    		JOptionPane.showMessageDialog(f, "Customer Deleted " ,"Success.",  JOptionPane.INFORMATION_MESSAGE);
-						    	}
-						    }
-						    
-						    
-				}}
+				((StrategyAdmin) userStrategy).removeACustomer(customer);
 			}
 	     });		
 		
-		deleteAccount.addActionListener(new ActionListener(  ) {
+		deleteCustomerAccountBTN.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-	boolean found = true, loop = true;
-				
-				
-				
-				
-					 {
-						    Object customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer from which you wish to delete an account");
-						    
-						    						    
-						    if(customerCollection.findCustomerBYID(CustomerID) == null)
-						    {
-						    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
-						    	if (reply == JOptionPane.YES_OPTION) {
-						    		loop = true;
-						    	}
-						    	else if(reply == JOptionPane.NO_OPTION)
-						    	{
-						    		f.dispose();
-						    		loop = false;
-						    	
-						    		admin();
-						    	}
-						    }  
-						    else
-						    {
-						    	//Here I would make the user select a an account to delete from a combo box. If the account had a balance of 0 then it would be deleted. (I do not have time to do this)
-						    }
-						    
-						    
-				}}
+				((StrategyAdmin) userStrategy).removeACustomerAccount();
+			}
 			
 	     });		
 		

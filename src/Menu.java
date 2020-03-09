@@ -19,37 +19,30 @@ public class Menu extends JFrame{
 	UserStrategy userStrategy;
 	
     private int position = 0;
-	String password;
+	String password, PPS,firstName,surname,DOB,CustomerID;
 	private Customer customer = null;
 	private CustomerAccount acc = new CustomerAccount();
 	JFrame f, f1;
-	 JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
-	 JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField;
-		JLabel customerIDLabel, passwordLabel;
-		JTextField customerIDTextField, passwordTextField;
+	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel, customerIDLabel, passwordLabel;
+	JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField;
 	Container content;
-		Customer customer1;
+	Customer customer1;
 		
-		String euro = "\u20ac";
-		//another test
-
-	 JPanel panel2;
-		JButton add;
-		String 	PPS,firstName,surname,DOB,CustomerID;
-		
-		
-		CustomerCollection customerCollection = new CustomerCollection();
+	String euro = "\u20ac";
 	
+	JPanel panel2;
+	JButton add;		
 		
-		
-		
+	CustomerCollection customerCollection = new CustomerCollection();
+	
 		
 		
 /////////////////Method that starts menu again//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			
 	public void returnToMenu() {
 			menuStart(f);				
 	     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////			
+
+
 	
 ////////////Method that takes a JFrame object. Then sets ui for it in the GUI window////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	public void setFrameUI(JFrame fr) {
@@ -59,8 +52,8 @@ public class Menu extends JFrame{
 				public void windowClosing(WindowEvent we) { System.exit(0); }
 			});
 		}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
+
+
 	
 	
 	
@@ -72,7 +65,7 @@ public class Menu extends JFrame{
 		Menu driver = new Menu();
 		driver.menuStart(new JFrame());
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+
 	
 /////////////////////////////menu Start method///////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void menuStart(JFrame oldFrame)
@@ -143,8 +136,8 @@ public class Menu extends JFrame{
 				}
 			});f.setVisible(true);	
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 
+	
 //////////////////////////////////////Admin method////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void admin()
 	{
@@ -272,7 +265,7 @@ public class Menu extends JFrame{
 			}
 	     });		
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+
 	
 ///////////////////////Customer method////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void customer(Customer customerOBJ)
@@ -416,111 +409,13 @@ public class Menu extends JFrame{
 			
 			lodgementButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
-				boolean loop = true;
-				double balance = 0;
-				boolean loginSuccess=false;
-	
-				if(acc instanceof CustomerCurrentAccount)
-				{
-					loginSuccess = AccountTransaction.CheckATMLogin(customerOBJ, f, acc);
-					
-					
-				}	
-						
-				
-				//IF ATM LOGIN PASS THEN
-				if(loginSuccess == true)
-						{
-					String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to lodge:");//the AccountTransaction.isNumeric method tests to see if the string entered was numeric. 
-					if(AccountTransaction.isNumeric(balanceTest))
-					{
-						
-						balance = Double.parseDouble(balanceTest);
-						loop = false;
-						
-						
-					}
-					else
-					{
-						customer(customerOBJ);
-						JOptionPane.showMessageDialog(f, "You must enter a numerical value!" ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-					}
-					
-				
-				
-				 acc.setBalance(acc.getBalance() + balance);
-					double amount = balance;
-					
-					
-					
-					
-					AccountTransaction transaction = new AccountTransaction((new Date()).toString(), "Lodgement", amount);
-					acc.getTransactionList().add(transaction);
-					
-				 JOptionPane.showMessageDialog(f, balance + euro + " added do you account!" ,"Lodgement",  JOptionPane.INFORMATION_MESSAGE);
-				 JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() + euro ,"Lodgement",  JOptionPane.INFORMATION_MESSAGE);
-				}
-	
-				}	
+					((ExistingCustomerStrategy) userStrategy).makeLodgement(acc, customerOBJ);
+					}	
 		     });
 			
 			withdrawButton.addActionListener(new ActionListener(  ) {
 				public void actionPerformed(ActionEvent ae) {
-					boolean loop = true;
-					boolean on = true;
-					double withdraw = 0;
-					boolean ATMCorrectLogin = false;
-	
-					if(acc instanceof CustomerCurrentAccount)
-					{
-						ATMCorrectLogin = AccountTransaction.CheckATMLogin(customerOBJ, f, acc);
-					}	
-			
-					    	
-					    	
-					    
-						
-						
-					if(ATMCorrectLogin == true)
-							{
-						String balanceTest = JOptionPane.showInputDialog(f, "Enter amount you wish to withdraw (max 500):");//the AccountTransaction.isNumeric method tests to see if the string entered was numeric. 
-						if(AccountTransaction.isNumeric(balanceTest))
-						{
-							
-							withdraw = Double.parseDouble(balanceTest);
-							loop = false;				
-							
-						}
-						else
-						{
-							customer(customerOBJ);
-							JOptionPane.showMessageDialog(f, "You must enter a numerical value!" ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-						}
-						if(withdraw > 500)
-						{
-							JOptionPane.showMessageDialog(f, "500 is the maximum you can withdraw at a time." ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-							withdraw = 0;
-						}
-						if(withdraw > acc.getBalance())
-						{
-							JOptionPane.showMessageDialog(f, "Insufficient funds." ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
-							withdraw = 0;					
-						}
-					
-					
-					 acc.setBalance(acc.getBalance()-withdraw);
-			
-						AccountTransaction transaction = new AccountTransaction((new Date()).toString(), "Withdraw", withdraw);
-						acc.getTransactionList().add(transaction);
-					 
-					 
-						
-					 JOptionPane.showMessageDialog(f, withdraw + euro + " withdrawn." ,"Withdraw",  JOptionPane.INFORMATION_MESSAGE);
-					 JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() + euro ,"Withdraw",  JOptionPane.INFORMATION_MESSAGE);
-					}
-					 
-						
-						
+					((ExistingCustomerStrategy) userStrategy).withdrawMoney(acc, customerOBJ);
 				}	
 		     });
 			
@@ -532,7 +427,6 @@ public class Menu extends JFrame{
 		     });
 		}
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 
 }
 

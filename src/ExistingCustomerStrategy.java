@@ -9,13 +9,14 @@ public class ExistingCustomerStrategy extends UserStrategy {
 		// TODO Auto-generated method stub
 
 		String customerPassword = "";
+		boolean correct = false;
 		
-		Customer customer = null;
+		Customer cust = null;
 		
 		
-		System.out.print(customerCollection.getCustomerList().toString());
+		//System.out.print(" \n\n" + customerCollection.getCustomerList().toString());
 		
-	    while(customer== null)
+	    while(cust == null)
 	    {
 	    String customerID = JOptionPane.showInputDialog(f, "Enter Customer ID:");
 	    
@@ -23,11 +24,13 @@ public class ExistingCustomerStrategy extends UserStrategy {
 	    	
 	    	if(aCustomer.getCustomerID().equals(customerID))//search customer list for matching customer ID
 	    	{
-	    		customer = aCustomer;
+	    		cust = aCustomer;
+	    		//System.out.println(cust.toString());
+
 	    	}					    	
 	    }
 	    
-	    if(customer == null)
+	    if(cust == null)
 	    {
 	    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 	    	if (reply == JOptionPane.YES_OPTION) {
@@ -41,25 +44,34 @@ public class ExistingCustomerStrategy extends UserStrategy {
 
 	   
 	    }
+	    boolean success= false;
 	    
-	    while(!customer.getPassword().equals(customerPassword))
+	    while(success == false)
 	    {
 	    	customerPassword = JOptionPane.showInputDialog(f, "Enter Customer Password;");
 	    	
-	    	   if(!customer.getPassword().equals(customerPassword))//check if custoemr password is  INcorrect
+	    	
+	    	   if(cust.getPassword().equals(customerPassword))//check if custoemr password is  correct
 			    {
-			    	int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?", JOptionPane.YES_NO_OPTION);
+	    		   success = true;
+	    		   
+	    		   customer(cust);
+	    		   f.dispose();
+			    	
+			    }
+	    	   else {
+	    		   int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect password. Try again?", JOptionPane.YES_NO_OPTION);
 			    	if(reply == JOptionPane.NO_OPTION){
 			    		f.dispose();
 			    		userMenuStart();
+			    	}else {
+			    		success = false;
 			    	}
-			    }
-	    	   else {
-	    		   f.dispose();
-	    		   customer(customer);	
 	    	   }
+	    	
 	    }
-	    	  			    
+	    
+
 	
 	}
 

@@ -70,8 +70,9 @@ public class StrategyAdmin extends UserStrategy {
 	    	
 	    if(adminUsername.equals("admin") && adminPassword.equals("admin11"))
 	    {
-		f1.dispose();
-	    admin();					    
+//	    	System.out.println();
+	    admin();		
+	    //f1.dispose();
 	    }					    
 	
 	}
@@ -574,7 +575,7 @@ public class StrategyAdmin extends UserStrategy {
 
 	
 ///////////////////Add a new account to a customer///////////////////////////////////////////////////////////////////////////
-	public void addAccountToCustomer(Customer customer) {
+	public void addAccountToCustomer() {
 
 		f.dispose();
 		
@@ -589,10 +590,10 @@ public class StrategyAdmin extends UserStrategy {
 	    {
 	    String customerID = JOptionPane.showInputDialog(f, "Customer ID of Customer You Wish to Add an Account to:");
 	    
-	    customer = customerCollection.findCustomerBYID(customerID);
-	    localCustomerOBJ = customer;
+	    localCustomerOBJ = customerCollection.findCustomerBYID(customerID);
+//	    localCustomerOBJ = customer;
 	    
-	    if(customer == null)
+	    if(localCustomerOBJ == null)
 	    {
 	    	int reply  = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?", JOptionPane.YES_NO_OPTION);
 	    	if(reply == JOptionPane.NO_OPTION)
@@ -611,7 +612,7 @@ public class StrategyAdmin extends UserStrategy {
 		    {
 		    	//create current account
 		    	double balance = 0;
-		    	String number = String.valueOf("C" + (customerCollection.getCustomerList().indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
+		    	String number = String.valueOf("C" + (customerCollection.getCustomerList().indexOf(localCustomerOBJ)+1) * 10 + (localCustomerOBJ.getAccounts().size()+1));//this simple algorithm generates the account number
 		    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 		    	int randomPIN = (int)(Math.random()*9000)+1000;
 		           String pin = String.valueOf(randomPIN);
@@ -620,7 +621,7 @@ public class StrategyAdmin extends UserStrategy {
 		    	
 		    	CustomerCurrentAccount current = new CustomerCurrentAccount(atm, number, balance, transactionList);
 		    	
-		    	customer.getAccounts().add(current);
+		    	localCustomerOBJ.getAccounts().add(current);
 		    	JOptionPane.showMessageDialog(f, "Account number = " + number +"\n PIN = " + pin  ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
 		    	
 		    	returnHome(f);
@@ -631,12 +632,12 @@ public class StrategyAdmin extends UserStrategy {
 		    	//create deposit account
 		    	
 		    	double balance = 0, interest = 0;
-		    	String number = String.valueOf("D" + (customerCollection.getCustomerList().indexOf(customer)+1) * 10 + (customer.getAccounts().size()+1));//this simple algorithm generates the account number
+		    	String number = String.valueOf("D" + (customerCollection.getCustomerList().indexOf(localCustomerOBJ)+1) * 10 + (localCustomerOBJ.getAccounts().size()+1));//this simple algorithm generates the account number
 		    	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 		        	
 		    	CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance, transactionList);
 		    	
-		    	customer.getAccounts().add(deposit);
+		    	localCustomerOBJ.getAccounts().add(deposit);
 		    	JOptionPane.showMessageDialog(f, "Account number = " + number ,"Account created.",  JOptionPane.INFORMATION_MESSAGE);
 		    	
 		    	returnHome(f);

@@ -55,6 +55,7 @@ public class Menu extends JFrame{
 			fr.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent we) { System.exit(0); }
 			});
+			fr.setVisible(true);
 		}
 
 
@@ -127,6 +128,7 @@ public class Menu extends JFrame{
 					//if user select ADMIN----------------------------------------------------------------------------------------------
 					if(user.equals("Administrator")	)
 					{
+						
 						userStrategy = new StrategyAdmin();
 						userStrategy.userMenuStart();
 					}
@@ -149,10 +151,11 @@ public class Menu extends JFrame{
 //////////////////////////////////////Admin method////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void admin()
 	{
-		dispose();
-		
+//		f1.dispose();
+		System.out.println("Made it to admin method");
 		f = new JFrame("Administrator Menu");
 		setFrameUI(f);
+
 		
 		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton deleteCustomer = new JButton("Delete Customer");	
@@ -249,7 +252,7 @@ public class Menu extends JFrame{
 		
 		accountButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				((StrategyAdmin) userStrategy).addAccountToCustomer(customer); 
+				((StrategyAdmin) userStrategy).addAccountToCustomer(); 
 			}
 	     });		
 
@@ -278,6 +281,7 @@ public class Menu extends JFrame{
 ///////////////////////Customer method////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void customer(Customer customerOBJ)
 	{	
+		System.out.println("made it customer obj");
 		f = new JFrame("Customer Menu");
 		setFrameUI(f);
 		
